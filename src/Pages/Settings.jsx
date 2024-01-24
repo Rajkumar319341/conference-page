@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Settings = () => {
   return (
-    <div className='home'>
+    <div className="text-container">
         <h1>
         Settings
         </h1>

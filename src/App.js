@@ -9,25 +9,29 @@ import {
 import {
 	AboutUs,
 } from "./Pages/AboutUs";
-import {Files,FilesOne,FilesTwo
+import {
+	Files, FilesOne, FilesTwo
 } from "./Pages/Files";
 import { Calender } from "./Pages/Calender";
 import {
-  Webinars,
+	Webinars,
 } from "./Pages/Webinars";
 import Contact from "./Pages/ContactUs";
 import { Users } from "./Pages/Users";
 import { Settings } from "./Pages/Settings";
+import { Dashboard } from "./Pages/Dashboard";
+import Schedule from "./Meeting/Schedule";
 function App() {
 	return (
 		<Router>
 			<Sidebar />
 			<Routes>
+				<Route path="/" element={<Dashboard />} />
 				<Route
 					path="/home"
 					element={<AboutUs />}
 				/>
-				<Route path="/calender" element={<Calender/>}/>
+				<Route path="/calender" element={<Calender />} />
 				<Route
 					path="/files"
 					element={<Files />}
@@ -40,7 +44,7 @@ function App() {
 					path="/files/files2"
 					element={<FilesTwo />}
 				/>
-				
+
 				<Route
 					path="/contact"
 					element={<Contact />}
@@ -49,10 +53,11 @@ function App() {
 					path="/webinars"
 					element={<Webinars />}
 				/>
-			
-				
-        <Route path="/user" element={<Users/>}/>
-        <Route path="/settings" element={<Settings/>}/>
+
+
+				<Route path="/user" element={<Users />} />
+				<Route path="/settings" element={<Settings />} />
+				<Route path="/schedule" element={<Schedule/>}/>
 			</Routes>
 		</Router>
 	);

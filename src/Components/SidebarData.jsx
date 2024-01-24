@@ -8,9 +8,14 @@ import { FaVideo } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import { PiUsersThreeFill } from "react-icons/pi";
 import { IoSettingsSharp } from "react-icons/io5";
+import { MdOutlineHelp } from "react-icons/md";
+import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
+
+
 
 
 export const SidebarData = [
+	
 	{
 		title: "Home",
 		path: "/home",
@@ -63,14 +68,21 @@ export const SidebarData = [
 		icon: <SlCalender />,
 	},
     {
-        title:"Users",
+        title:"Chat",
         path:"/user",
-        icon:<PiUsersThreeFill />,
+        icon:<IoChatbubbleEllipsesSharp />,
+
     },
     {
         title:"Settings",
         path:"/settings",
         icon:<IoSettingsSharp />,
-    }
+    },
+	{
+		title:"Help",
+		path:"/help",
+		icon:<MdOutlineHelp />,
+
+	}
 
 ];
