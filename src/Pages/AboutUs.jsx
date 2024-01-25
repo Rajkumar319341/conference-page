@@ -23,13 +23,12 @@ export const AboutUs = () => {
               <Typography variant="h5" component="div">
                 Meeting
               </Typography>
+              <br></br>
               <Typography>Create a meeting, invite participants, and interact through screen sharing and audio/video conferencing.</Typography>
               <br />
               <br />
-              <Button variant="contained" color="primary">
-                Meet Now
-              </Button>
-              <Button variant="outlined" color="primary" style={{ marginLeft: '8px' }} onClick={handleOpenForm}>
+              
+              <Button variant="contained" color="primary" style={{ marginLeft: '8px' }} onClick={handleOpenForm}>
                 Schedule
               </Button>
             </CardContent>

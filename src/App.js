@@ -21,6 +21,7 @@ import { Users } from "./Pages/Users";
 import { Settings } from "./Pages/Settings";
 import { Dashboard } from "./Pages/Dashboard";
 import Schedule from "./Meeting/Schedule";
+import AppointmentsList from "./Meeting/AppointmentsList";
 function App() {
 	return (
 		<Router>
@@ -58,6 +59,7 @@ function App() {
 				<Route path="/user" element={<Users />} />
 				<Route path="/settings" element={<Settings />} />
 				<Route path="/schedule" element={<Schedule/>}/>
+				<Route path="/appointmentslist" element={<AppointmentsList/>}/>
 			</Routes>
 		</Router>
 	);

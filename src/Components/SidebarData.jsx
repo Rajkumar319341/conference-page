@@ -24,32 +24,32 @@ export const SidebarData = [
 		iconOpened: <RiIcons.RiArrowUpSFill />,
 
 	},
-	{
-		title: "Files",
-		path: "/files",
-		icon: <IoIcons.IoIosPaper />,
-		iconClosed: <RiIcons.RiArrowDownSFill />,
-		iconOpened: <RiIcons.RiArrowUpSFill />,
+	// {
+	// 	title: "Files",
+	// 	path: "/files",
+	// 	icon: <IoIcons.IoIosPaper />,
+	// 	iconClosed: <RiIcons.RiArrowDownSFill />,
+	// 	iconOpened: <RiIcons.RiArrowUpSFill />,
 
-		subNav: [
-			{
-				title: "Recordings",
-				path: "/files/files1",
-				icon: <IoIcons.IoIosPaper />,
-				cName: "sub-nav",
-			},
-			{
-				title: "Files",
-				path: "/files/files2",
-				icon: <IoIcons.IoIosPaper />,
-				cName: "sub-nav",
-			},
+	// 	subNav: [
+	// 		{
+	// 			title: "Recordings",
+	// 			path: "/files/files1",
+	// 			icon: <IoIcons.IoIosPaper />,
+	// 			cName: "sub-nav",
+	// 		},
+	// 		{
+	// 			title: "Files",
+	// 			path: "/files/files2",
+	// 			icon: <IoIcons.IoIosPaper />,
+	// 			cName: "sub-nav",
+	// 		},
 			
-		],
-	},
+	// 	],
+	// },
 	{
 		title: "Meetings",
-		path: "/contact",
+		path: "/appointmentslist",
 		icon: <FaVideo /> ,
 	},
 	{
