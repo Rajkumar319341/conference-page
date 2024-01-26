@@ -69,7 +69,7 @@ const AppointmentsList = () => {
           meetLink: canceledAppointment.meetLink,
           status: canceledAppointment.status,
           canceler: canceledAppointment.customer, 
-          canceledAt: "2023-09-11T12:00",
+           canceledAt :new Date().toISOString().slice(0, 16),
           end: canceledAppointment.end,
           start: canceledAppointment.start,
           description: reason,
