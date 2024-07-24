@@ -6,9 +6,7 @@ import {
 	Routes,
 	Route,
 } from "react-router-dom";
-import {
-	AboutUs,
-} from "./Pages/AboutUs";
+import {AboutUs} from "./Pages/AboutUs"
 import {
 	Files, FilesOne, FilesTwo
 } from "./Pages/Files";
@@ -30,7 +28,7 @@ function App() {
 				<Route path="/" element={<Dashboard />} />
 				<Route
 					path="/home"
-					element={<AboutUs />}
+					element={<AboutUs/>}
 				/>
 				<Route path="/calender" element={<Calender />} />
 				<Route

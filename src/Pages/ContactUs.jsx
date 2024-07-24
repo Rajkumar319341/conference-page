@@ -4,7 +4,7 @@ import React from "react";
 const Contact = () => {
 	return (
 		<div className="text-container">
-			<h1>Care4edu Meetings</h1>
+			<h3 style={{fontFamily:"Georgia, serif"}}>Care4edu Meetings</h3>
 		</div>
 	);
 };

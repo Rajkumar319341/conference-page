@@ -1,158 +1,228 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { APIData, org } from '../Authentication/APIData';
+import { TextField, Button, Container, Typography, Grid, MenuItem, Select, FormControl, InputLabel } from '@material-ui/core';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import React from 'react';
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
+const Schedule = () => {
+  const [formData, setFormData] = useState({
+    title: '',
+    provEmailId: '',
+    custEmailId: '',
+    description: '',
+    startTime: '',
+    endTime: '',
+  });
 
-export default function Schedule() {
+  const [toOption, setToOption] = useState('All');
+  const [department, setDepartment] = useState('');
+  const [emails, setEmails] = useState([]);
+  const [externalEmails, setExternalEmails] = useState('');
+
+  useEffect(() => {
+    const fetchEmails = async () => {
+      try {
+        if (toOption === 'All') {
+          const url = APIData.api1 + `employee/emails?org=${org}`;
+          const response = await axios.get(url, { headers: APIData.headers });
+          setEmails(response.data);
+          setFormData((prevData) => ({
+            ...prevData,
+            custEmailId: response.data.join(', '),
+          }));
+        } else if (toOption === 'Department' && department) {
+          const url = APIData.api1 + `employee/email?department=${department}&org=${org}`;
+          const response = await axios.get(url, { headers: APIData.headers });
+          setEmails(response.data);
+          setFormData((prevData) => ({
+            ...prevData,
+            custEmailId: response.data.join(', '),
+          }));
+        }
+      } catch (error) {
+        console.error('Error fetching emails:', error);
+      }
+    };
+
+    fetchEmails();
+  }, [toOption, department]);
+
+  const handleToChange = (e) => {
+    const selectedOption = e.target.value;
+    setToOption(selectedOption);
+    setDepartment('');
+    setEmails([]);
+    setFormData((prevData) => ({
+      ...prevData,
+      custEmailId: '',
+    }));
+  };
+
+  const handleDepartmentChange = (e) => {
+    setDepartment(e.target.value);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleExternalEmailsChange = (e) => {
+    setExternalEmails(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //    const data = new FormData(e.currentTarget);
 
-    // const startDate=new Date(document.getElementById("startDate").value);
-    // const endDate=new Date(document.getElementById("endDate").value);
-    const appointmentData = {
-      id: 0,
-      customer: e.target.to.value,
-      provider: e.target.from.value,
-      instituteId: e.target.instituteId.value,
-      mode: e.target.mode.value,
-      cost:  0,
-      skill: e.target.skill.value,
-      venue: 0,
-      invoice: "",
-      location: e.target.location.value,
-      meetLink: e.target.meetingLink.value,
-      status: e.target.status.value,
-      canceler: "",
-      canceledAt: "",
-      end: e.target.endDate.value,
-      start:e.target.startDate.value,
-      description: e.target.description.value
+    const internalEmails = formData.custEmailId ? formData.custEmailId.split(',').map((email) => email.trim()) : [];
+
+    const externalEmailList = externalEmails ? externalEmails.split(',').map((email) => email.trim()) : [];
+
+    const allEmails = [...new Set([...internalEmails, ...externalEmailList])].join(', ');
+
+    const formattedData = {
+      ...formData,
+      custEmailId: allEmails.split(',').map((email) => email.trim()),
     };
-    console.log(appointmentData);
+
     try {
-      var basicAuth = "Basic " + btoa("c4econsumer".concat(":", "3G2F4D5S7A8Q9W0E1R2T6Y4U8I3O9P5"));
-      const response = await fetch('https://appointments-shikshakpro.care4edu.com/consumer/appointments/book  ', {
-        method: 'POST',
-
-        headers: {
-          'Authorization': basicAuth,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(appointmentData),
-      });
-      console.log(response.body);
-      console.log(response.status);
-      if (response.ok) {
-        alert("success");
-
-      } else {
-        alert("Not succeesss")
-
-      }
+      const url = APIData.api + 'web-conf/meeting';
+      const response = await axios.post(url, formattedData, { headers: APIData.headers });
+      console.log('Meeting scheduled successfully:', response.data);
+      toast.success("Meeting scheduled Successfully");
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error scheduling meeting:', error);
+      toast.error(error)
     }
-  }
-
+  };
 
   return (
-    <div>
+    <Container maxWidth="md">
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">From</Typography>
-            <TextField required
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel>To</InputLabel>
+              <Select value={toOption} onChange={handleToChange}>
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="Department">Department</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          {toOption === 'Department' && (
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel>Department</InputLabel>
+                <Select value={department} onChange={handleDepartmentChange}>
+                  <MenuItem value="TECHNICAL">TECHNICAL</MenuItem>
+                  <MenuItem value="SALES">SALES</MenuItem>
+                  <MenuItem value="FINANCE">FINANCE</MenuItem>
+                  <MenuItem value="HR">HR</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          )}
+          <Grid item xs={12}>
+            <TextField
+              label="External Email IDs"
+              value={externalEmails}
+              onChange={handleExternalEmailsChange}
               fullWidth
-              id="from"
-
-              name="from"
-              type="string"
-              autoComplete="from" />
+              helperText="Email IDs should be comma separated"
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">To</Typography>
-            <TextField fullWidth id="to"
-
-              name="to"
-              type="string"
-              autoComplete="to" />
+            <TextField
+              label="Provider Email ID"
+              name="provEmailId"
+              value={formData.provEmailId}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">Institute ID</Typography>
-            <TextField fullWidth id="instituteId"
-
-              name="instituteId"
-              type="string"
-              autoComplete="instituteId" />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">Mode</Typography>
-            <TextField fullWidth id="mode"
-
-              name="mode"
-
-              type="string"
-              autoComplete="mode" />
-          </Grid>
-         
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">Skill</Typography>
-            <TextField fullWidth id="skill"
-
-              name="skill"
-              type="string"
-              autoComplete="skill" />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">Location</Typography>
-            <TextField fullWidth id="location"
-
-              name="location"
-              type="string"
-              autoComplete="Location" />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">Meeting Link</Typography>
-            <TextField fullWidth id="meetingLink"
-
-              name="meetingLink"
-              type="string"
-              autoComplete="meetingLink" />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">Status</Typography>
-            <TextField fullWidth id="status"
-
-              name="status"
-              type="string"
-              autoComplete="status" />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">Start Date</Typography>
-            <TextField fullWidth id="startDate"
-
-              name="startDate" type="datetime-local" />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">End Date</Typography>
-            <TextField fullWidth id="endDate"
-
-              name="endDate" type="datetime-local" />
+            <TextField
+              label="Org Email IDs"
+              name="custEmailId"
+              value={formData.custEmailId}
+              onChange={handleChange}
+              fullWidth
+              // required
+              helperText="Email IDs should be comma separated"
+              disabled={toOption === 'Department' && emails.length > 0}
+            />
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="subtitle1" >Description</Typography>
-            <TextField multiline fullWidth id="description"
-
+            <TextField
+              label="Subject"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Body"
               name="description"
-              type="string"
-              autoComplete="description" rows={4} />
+              value={formData.description}
+              onChange={handleChange}
+              multiline
+              rows={3}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Start Time"
+              name="startTime"
+              type="datetime-local"
+              value={formData.startTime}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="End Time"
+              name="endTime"
+              type="datetime-local"
+              value={formData.endTime}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+              required
+            />
           </Grid>
           <Grid item xs={12}>
-            <Button variant='contained' color='secondary' type='submit'> Schedule</Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ padding: '10px' }}
+            >
+              Schedule
+            </Button>
           </Grid>
+
         </Grid>
+        <ToastContainer />
       </form>
-    </div>
-  )
-}
+    </Container>
+  );
+};
+
+export default Schedule;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, Grid, Button, Card, CardContent, Link, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core";
-import Schedule from '../Meeting/Schedule'; // Import your form component
+import Schedule from '../Meeting/Schedule'; 
 import '../App.css';
 
 export const AboutUs = () => {
@@ -20,7 +20,7 @@ export const AboutUs = () => {
         <Grid item xs={12} md={6} style={{ margin: "2rem" }}>
           <Card>
             <CardContent>
-              <Typography variant="h5" component="div">
+              <Typography variant="h5" component="div" style={{fontFamily:"Georgia, serif"}}>
                 Meeting
               </Typography>
               <br></br>
@@ -37,7 +37,7 @@ export const AboutUs = () => {
       </Grid>
 
       <Dialog open={isFormOpen} onClose={handleCloseForm} fullWidth maxWidth="sm">
-        <DialogTitle>Schedule Meeting</DialogTitle>
+        <DialogTitle style={{textAlign:"center" , fontFamily:"Georgia, serif"}}>Schedule Meeting</DialogTitle>
         <DialogContent>
           <Schedule/>
         </DialogContent>

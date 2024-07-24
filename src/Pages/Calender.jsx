@@ -3,7 +3,7 @@ import React from 'react'
 export const Calender = () => {
   return (
     <div className="text-container">
-        <h1>  Calender</h1>
+        <h3 style={{fontFamily:"Georgia, serif"}}>  Calender</h3>
        </div>
   )
 }

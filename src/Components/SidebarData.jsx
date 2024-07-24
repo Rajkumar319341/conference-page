@@ -18,7 +18,7 @@ export const SidebarData = [
 	
 	{
 		title: "Home",
-		path: "/home",
+		path: "/appointmentslist",
 		icon: <AiIcons.AiFillHome />,
 		iconClosed: <RiIcons.RiArrowDownSFill />,
 		iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -49,7 +49,7 @@ export const SidebarData = [
 	// },
 	{
 		title: "Meetings",
-		path: "/appointmentslist",
+		path: "/home",
 		icon: <FaVideo /> ,
 	},
 	{

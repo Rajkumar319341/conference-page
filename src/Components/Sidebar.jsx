@@ -105,9 +105,10 @@ const Sidebar = () => {
           <h1
             style={{
               textAlign: "center",
-              color: "#0dc5ff",
+              color: "#167BEE",
               margin: "0",
               fontSize: "1.5rem",
+              fontFamily:"Georgia, serif"
             }}
           >
             Join Our Meeting @Care4edu
